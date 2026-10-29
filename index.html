@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="uk" data-theme="commander" data-accent="cyan">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; font-src 'self'">
+<title>Вебінари Олександра Ординського</title>
+<meta name="description" content="Вебінари й майстер-класи для викладачів: хмарні сервіси, ШІ та безпека в освіті. Матеріали, інструкції й код.">
+<meta property="og:title" content="Вебінари Олександра Ординського">
+<meta property="og:description" content="Майстер-класи для викладачів: хмарні сервіси, ШІ та безпека в освіті.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230000AA'/%3E%3Crect x='2' y='2' width='12' height='12' fill='none' stroke='%2355FFFF' stroke-width='1.5'/%3E%3Crect x='5' y='6' width='6' height='2' fill='%23FFFF55'/%3E%3C/svg%3E">
+<link rel="preload" href="kit/fonts/terminus-prop-bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="kit/css/kit.css">
+<link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<a class="dos-skip" href="#main">До змісту</a>
+<div class="dos-screen">
+  <nav class="dos-menubar" aria-label="Меню">
+    <span class="brand">☼ ВЕБІНАРИ</span>
+    <a href="#list" aria-current="page"><u>С</u>писок</a>
+    <a href="#author"><u>А</u>втор</a>
+    <span class="sp"></span>
+    <dos-clock></dos-clock>
+  </nav>
+  <main id="main" class="dos-page">
+    <header class="hero">
+      <p class="kicker">C:\WEBINARS&gt; dir /o:-d</p>
+      <h1>Вебінари для викладачів</h1>
+      <p class="lead">Хмарні сервіси, штучний інтелект і безпека в освіті — на практиці. До кожного вебінару: слайди, покрокова інструкція й код, щоб повторити зі студентами.</p>
+    </header>
+
+    <section id="list" class="dos-panel is-active" aria-label="Список вебінарів">
+      <span class="dos-panel-title">C:\WEBINARS</span>
+      <table class="dos-filelist hub-list">
+        <thead><tr><th>Ім’я</th><th>Вебінар</th><th class="col-date">Дата</th><th>Стан</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <span class="dos-panel-foot" id="count"></span>
+    </section>
+
+    <div id="cards" class="cards"></div>
+
+    <div class="dos-split">
+      <section id="author" class="dos-panel thin left-title" aria-label="Автор">
+        <span class="dos-panel-title">Автор</span>
+        <p><b>Олександр Ординський</b><br><span class="muted">Викладач ВТФК · Senior Full-Stack розробник · 10 років у розробці</span></p>
+        <dos-socials></dos-socials>
+      </section>
+      <section class="dos-panel thin left-title" aria-label="Не пропустіть">
+        <span class="dos-panel-title">Не пропустіть наступний</span>
+        <p>Анонси й матеріали — у Telegram-каналах вебінарів. Хочете тему для свого закладу чи асоціації? Напишіть мені в соцмережах.</p>
+      </section>
+    </div>
+  </main>
+  <footer class="dos-footer">
+    <span>© 2026 Олександр Ординський</span>
+    <span>Шрифти: Terminus, Fira Code (OFL) · Іконки: Pixelarticons (MIT)</span>
+  </footer>
+</div>
+<script src="kit/series.js"></script>
+<script src="webinars.js"></script>
+<script src="hub.js"></script>
+<script src="kit/js/dos-kit.js"></script>
+</body>
+</html>
