@@ -299,8 +299,50 @@
     });
   }
 
+  /* ======================= DOS starfield background (neon theme; html[data-stars="off"] disables) ======================= */
+  function stars() {
+    const html = document.documentElement;
+    if (html.dataset.theme !== 'neon' || html.dataset.stars === 'off' || document.querySelector('.dos-stars')) return;
+    const c = document.createElement('canvas'); c.className = 'dos-stars'; c.setAttribute('aria-hidden', 'true');
+    document.body.prepend(c);
+    const ctx = c.getContext('2d'), RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const COLORS = ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#22E6FF', '#22E6FF', '#FF3EC8', '#FFE14D'];
+    let W = 0, H = 0, dpr = 1, list = [];
+    const make = () => ({ x: Math.random() * W, y: Math.random() * H, z: .15 + Math.random() * .85,
+      c: COLORS[(Math.random() * COLORS.length) | 0], p: Math.random() * 6.28, s: Math.random() < .12 ? 2 : 1 });
+    const size = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+      c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.min(260, W * H / 7000));
+      while (list.length < n) list.push(make()); list.length = n;
+    };
+    const draw = t => {
+      ctx.clearRect(0, 0, W, H);
+      const sy = scrollY * .12;
+      for (const st of list) {
+        const a = .35 + .65 * st.z * (.65 + .35 * Math.sin(t / 900 + st.p));
+        const y = ((st.y - sy * st.z) % H + H) % H;
+        ctx.globalAlpha = a; ctx.fillStyle = st.c;
+        const px = st.s * (st.z > .8 ? 2 : 1);           // square "pixels", like a DOS demo
+        ctx.fillRect(Math.round(st.x), Math.round(y), px, px);
+      }
+    };
+    let last = 0, raf = 0;
+    const loop = t => {
+      raf = requestAnimationFrame(loop);
+      if (t - last < 33) return;                          // ~30 fps is plenty
+      const dt = Math.min(60, t - last); last = t;
+      for (const st of list) { st.x -= st.z * dt * .012; if (st.x < -2) { st.x = W + 2; st.y = Math.random() * H; } }
+      draw(t);
+    };
+    size(); addEventListener('resize', size);
+    if (RM) { draw(0); addEventListener('scroll', () => draw(0), { passive: true }); return; }
+    raf = requestAnimationFrame(loop);
+    document.addEventListener('visibilitychange', () => { cancelAnimationFrame(raf); if (!document.hidden) { last = performance.now(); raf = requestAnimationFrame(loop); } });
+  }
+
   /* ======================= init ======================= */
-  const init = () => { enhanceCode(document); enhanceFilelist(document); liveBadges(); setInterval(liveBadges, 60000); };
+  const init = () => { enhanceCode(document); enhanceFilelist(document); liveBadges(); setInterval(liveBadges, 60000); stars(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   window.dosEnhance = root => { enhanceCode(root || document); enhanceFilelist(root || document); };
 })();

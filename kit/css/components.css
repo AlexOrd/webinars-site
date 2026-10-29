@@ -221,7 +221,7 @@ dialog.dos-dialog.danger .inner > .t { background: var(--danger-bg); }
 .dos-step h2::after { display: none; }
 .dos-step .time { font-family: var(--font-pixel); color: var(--fg); }
 .dos-step .check { border-left: 4px solid var(--ok); padding: 6px 14px; color: var(--fg-read); background: rgba(85, 255, 85, .08); margin: 0 0 var(--s-2); max-width: var(--measure); }
-.dos-step .check::before { content: "Expected: "; font-family: var(--font-pixel); font-weight: 700; color: var(--ok); }
+.dos-step .check::before { content: "Має вийти: "; font-family: var(--font-pixel); font-weight: 700; color: var(--ok); }
 .ui { font-family: var(--font-read); background: var(--dialog-bg); color: #000; padding: 0 .35em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .ui .en { color: #333; font-size: .85em; }
 .ui .en::before { content: " / "; }
@@ -286,7 +286,7 @@ dialog.dos-dialog.danger .inner > .t { background: var(--danger-bg); }
 .dos-step { min-width: 0; }
 
 /* big screens: scale the whole page (not the reveal stage, which scales itself) */
-@media (min-width: 1700px) { html:not([data-theme="stage"]) { zoom: 1.25; } }
-@media (min-width: 2300px) { html:not([data-theme="stage"]) { zoom: 1.5; } }
-@media (min-width: 3000px) { html:not([data-theme="stage"]) { zoom: 2; } }
+@media (min-width: 1700px) { html:not([data-theme="stage"]):not([data-theme="neon"]) { zoom: 1.25; } }
+@media (min-width: 2300px) { html:not([data-theme="stage"]):not([data-theme="neon"]) { zoom: 1.5; } }
+@media (min-width: 3000px) { html:not([data-theme="stage"]):not([data-theme="neon"]) { zoom: 2; } }
 }

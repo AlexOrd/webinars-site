@@ -1,9 +1,10 @@
 /* ordynski-dos-kit v1.0 — entry stylesheet.
    Layers: a consumer's unlayered CSS always wins over the kit (consilium T5). */
-@layer kit.tokens, kit.base, kit.components, kit.effects;
+@layer kit.tokens, kit.base, kit.components, kit.effects, kit.theme;
 
 @import url("fonts.css");
 @import url("tokens.css") layer(kit.tokens);
 @import url("base.css") layer(kit.base);
 @import url("components.css") layer(kit.components);
 @import url("effects.css") layer(kit.effects);
+@import url("neon.css") layer(kit.theme);
