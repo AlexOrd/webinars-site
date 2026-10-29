@@ -221,7 +221,7 @@ dialog.dos-dialog.danger .inner > .t { background: var(--danger-bg); }
 .dos-step h2::after { display: none; }
 .dos-step .time { font-family: var(--font-pixel); color: var(--fg); }
 .dos-step .check { border-left: 4px solid var(--ok); padding: 6px 14px; color: var(--fg-read); background: rgba(85, 255, 85, .08); margin: 0 0 var(--s-2); max-width: var(--measure); }
-.dos-step .check::before { content: "Має вийти: "; font-family: var(--font-pixel); font-weight: 700; color: var(--ok); }
+.dos-step .check::before { content: "Expected: "; font-family: var(--font-pixel); font-weight: 700; color: var(--ok); }
 .ui { font-family: var(--font-read); background: var(--dialog-bg); color: #000; padding: 0 .35em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .ui .en { color: #333; font-size: .85em; }
 .ui .en::before { content: " / "; }
@@ -275,6 +275,7 @@ dialog.dos-dialog.danger .inner > .t { background: var(--danger-bg); }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; }
 }
 
+@layer kit.components {
 /* pixel UI text only at 16px multiples (consilium V2): crisp on 1× screens */
 .dos-menubar, .dos-panel > .dos-panel-title, .dos-panel > .dos-panel-foot, .dos-filelist, .dos-status, .dos-fkeys,
 .dos-btn, .dos-code > .bar, .dos-copy, .dos-term-bar, .dos-term-bar button, .dos-qr-cap, .dos-timer .ctl,
@@ -288,3 +289,4 @@ dialog.dos-dialog.danger .inner > .t { background: var(--danger-bg); }
 @media (min-width: 1700px) { html:not([data-theme="stage"]) { zoom: 1.25; } }
 @media (min-width: 2300px) { html:not([data-theme="stage"]) { zoom: 1.5; } }
 @media (min-width: 3000px) { html:not([data-theme="stage"]) { zoom: 2; } }
+}
