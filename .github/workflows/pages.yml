@@ -1,0 +1,38 @@
+# Publishes the hub (webinars.ordynski.com) with GitHub Pages.
+# Public values (GA4 id, social links) come from Settings → Secrets and variables → Actions → Variables
+# and are injected into kit/series.js at deploy time (kit/tools/inject-config.mjs).
+# One-time: Settings → Pages → Source: GitHub Actions (init.sh does it).
+name: Deploy hub
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.d.outputs.page_url }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Inject public config
+        run: |
+          mkdir -p _site && cp -R index.html hub.css hub.js webinars.js kit CNAME .nojekyll _site/
+          rm -rf _site/kit/tools
+          node kit/tools/inject-config.mjs _site
+        env:
+          GA4_ID: ${{ vars.GA4_ID }}
+          SOCIAL_LINKEDIN: ${{ vars.SOCIAL_LINKEDIN }}
+          SOCIAL_GITHUB: ${{ vars.SOCIAL_GITHUB }}
+          SOCIAL_TELEGRAM: ${{ vars.SOCIAL_TELEGRAM }}
+          SOCIAL_FACEBOOK: ${{ vars.SOCIAL_FACEBOOK }}
+          SOCIAL_YOUTUBE: ${{ vars.SOCIAL_YOUTUBE }}
+          SOCIAL_INSTAGRAM: ${{ vars.SOCIAL_INSTAGRAM }}
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: _site }
+      - id: d
+        uses: actions/deploy-pages@v4
