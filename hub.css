@@ -1,15 +1,16 @@
 .hero { margin: var(--s-2) 0 var(--s-6); }
-.hero .kicker { font-family: var(--font-pixel); color: var(--accent); margin: 0 0 var(--s-1); font-size: 16px; }
+.hero .kicker { font-family: var(--font-ui, var(--font-pixel)); color: var(--accent); margin: 0 0 var(--s-2); font-size: var(--text-sm); letter-spacing: .14em; text-transform: uppercase; }
 .hero h1 { font-size: 48px; }
 @media (min-width: 800px) { .hero h1 { font-size: 64px; } }
-.hero .lead { font-size: 19px; }
+@media (min-width: 1700px) { .hero h1 { font-size: 96px; } }
+.hero .lead { font-size: var(--text-lg, 19px); line-height: 1.55; max-width: 46ch; }
 #list { margin-bottom: var(--s-6); }
-.hub-list .st { font-family: var(--font-pixel); }
+.hub-list .st { font-family: var(--font-ui, var(--font-pixel)); }
 .hub-list .st.soon { color: var(--warn); }
 .hub-list .st.live { color: var(--err); }
 .hub-list .st.past { color: var(--ok); }
 .hub-list tr[aria-selected="true"] .st, .hub-list tr:hover .st { color: inherit; }
 .cards { display: grid; gap: var(--s-4); margin-bottom: var(--s-6); }
-.card h2 { font-size: 32px; }
+.card h2 { font-size: var(--pixel-md, 32px); }
 @media (max-width: 600px) { .hub-list .label { display: none; } }
 .facts { margin-top: var(--s-2); }
