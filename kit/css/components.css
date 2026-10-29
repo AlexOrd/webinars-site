@@ -290,3 +290,9 @@ dialog.dos-dialog.danger .inner > .t { background: var(--danger-bg); }
 @media (min-width: 2300px) { html:not([data-theme="stage"]):not([data-theme="neon"]) { zoom: 1.5; } }
 @media (min-width: 3000px) { html:not([data-theme="stage"]):not([data-theme="neon"]) { zoom: 2; } }
 }
+@layer kit.components {
+  /* file-list preview: panes stacked in one cell → stable height, no layout jump on hover */
+  .dos-preview-stack { display: grid; }
+  .dos-preview-stack > .pv { grid-area: 1 / 1; visibility: hidden; }
+  .dos-preview-stack > .pv.on { visibility: visible; }
+}

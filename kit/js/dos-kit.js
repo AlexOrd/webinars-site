@@ -262,11 +262,23 @@
       t.dataset.enh = '1';
       const target = document.querySelector(t.dataset.preview);
       const rows = [...t.querySelectorAll('tr[data-href]')];
+      // All previews are rendered once and stacked in one grid cell: the panel keeps the height of the
+      // tallest one, so nothing below jumps when the selection changes on hover.
+      const panes = new Map();
+      if (target) {
+        target.textContent = ''; target.classList.add('dos-preview-stack');
+        rows.forEach(r => {
+          const tpl = r.dataset.previewId && document.getElementById(r.dataset.previewId); if (!tpl) return;
+          const pane = document.createElement('div'); pane.className = 'pv'; pane.appendChild(tpl.content.cloneNode(true));
+          pane.inert = true; pane.setAttribute('aria-hidden', 'true');
+          target.appendChild(pane); panes.set(r, pane);
+        });
+        enhanceCode(target);
+      }
       const select = (row, focus) => {
         rows.forEach(r => r.setAttribute('aria-selected', String(r === row)));
         if (focus) row.focus();
-        const tpl = row.dataset.previewId && document.getElementById(row.dataset.previewId);
-        if (target && tpl) { target.textContent = ''; target.appendChild(tpl.content.cloneNode(true)); enhanceCode(target); }
+        panes.forEach((pane, r) => { const on = r === row; pane.classList.toggle('on', on); pane.inert = !on; pane.setAttribute('aria-hidden', String(!on)); });
       };
       rows.forEach((r, i) => {
         r.tabIndex = 0;
