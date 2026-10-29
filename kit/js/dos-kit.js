@@ -81,8 +81,11 @@
       this.btn.addEventListener('click', () => this.hasAttribute('step') ? this.next() : this.play());
       bar.appendChild(this.btn);
       this.body = el('div', 'dos-term-body'); this.body.setAttribute('role', 'log'); this.body.setAttribute('aria-live', 'off');
-      box.append(bar, this.body); this.appendChild(box);
+      box.append(bar, this.body); this.appendChild(box); this.box = box;
       this.prompt = this.getAttribute('prompt') || '$';
+      // Reserve the height of the finished session up front, so revealing steps never pushes the page down.
+      let lastW = 0;
+      new ResizeObserver(() => { const w = this.body.clientWidth; if (w && w !== lastW) { lastW = w; this.reserve(); } }).observe(this.body);
       this.shown = 0;
       if (this.hasAttribute('step')) { this.render(0); this.hint(); return; }
       if (RM || this.hasAttribute('no-autoplay')) { this.render(this.steps.length); return; }
@@ -102,6 +105,17 @@
       (step.out || []).forEach(o => frag.appendChild(el('div', 'dos-term-out', String(o))));
       if (step.note) frag.appendChild(el('div', 'dos-term-note', '↳ ' + step.note));
       return frag;
+    }
+    reserve() {
+      const w = this.body.clientWidth; if (!w) return;
+      const m = this.body.cloneNode(false);
+      m.removeAttribute('role'); m.setAttribute('aria-hidden', 'true');
+      m.style.cssText = `position:absolute;left:0;top:0;width:${w}px;max-height:none;min-height:0;visibility:hidden;pointer-events:none`;
+      this.steps.forEach(s => { m.appendChild(this.line(s, s.cmd || '', false)); m.appendChild(this.outputs(s)); });
+      this.box.style.position = 'relative'; this.box.appendChild(m);
+      const max = parseFloat(getComputedStyle(this.body).maxHeight);
+      const h = m.offsetHeight; m.remove();
+      this.body.style.minHeight = (isFinite(max) ? Math.min(h, max) : h) + 'px';
     }
     hint() { this.body.appendChild(el('div', 'dos-term-note dos-term-hint', 'Press Step ▷ (or K) to run the next command')); }
     render(n) {
