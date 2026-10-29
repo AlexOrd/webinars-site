@@ -12,3 +12,4 @@
 .cards { display: grid; gap: var(--s-4); margin-bottom: var(--s-6); }
 .card h2 { font-size: 32px; }
 @media (max-width: 600px) { .hub-list .label { display: none; } }
+.facts { margin-top: var(--s-2); }

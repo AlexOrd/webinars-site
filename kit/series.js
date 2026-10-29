@@ -4,7 +4,7 @@ window.DOS_SERIES = {
   siteName: 'Вебінари Олександра Ординського',
   author: {
     name: 'Олександр Ординський',
-    title: 'Викладач ВТФК · Senior Full-Stack розробник',
+    title: 'Senior Full-Stack розробник · 10 років у розробці',
   },
   hub: 'https://webinars.ordynski.com/',
   ga4: 'G-YOUR_ID',               // Google Analytics 4 Measurement ID, e.g. G-AB12CD34EF

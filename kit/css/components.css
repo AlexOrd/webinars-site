@@ -283,3 +283,8 @@ dialog.dos-dialog.danger .inner > .t { background: var(--danger-bg); }
 .dos-split > *, .dos-dodont > * { min-width: 0; }
 :not(pre) > code { overflow-wrap: anywhere; }
 .dos-step { min-width: 0; }
+
+/* big screens: scale the whole page (not the reveal stage, which scales itself) */
+@media (min-width: 1700px) { html:not([data-theme="stage"]) { zoom: 1.25; } }
+@media (min-width: 2300px) { html:not([data-theme="stage"]) { zoom: 1.5; } }
+@media (min-width: 3000px) { html:not([data-theme="stage"]) { zoom: 2; } }
