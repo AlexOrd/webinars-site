@@ -169,3 +169,12 @@
 .dos-stars { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: .55; }
 @media print { .dos-stars { display: none; } }
 @media (max-width: 600px) { [data-theme="neon"] .dos-panel { padding: calc(var(--s-3) + .2em) var(--s-2) var(--s-2); } }
+
+/* ---------- one reading column: text, code, terminals, callouts and checks share the same width ---------- */
+[data-theme="neon"] { --measure: clamp(600px, 52vw, 960px); }
+[data-theme="neon"] :is(.dos-step, .page-head, .prose, main > section:not(.dos-panel)) > :is(p, ul, ol, .dos-code, dos-terminal, .dos-callout, .check, .dos-table-wrap, .dos-dodont, .dos-panel, blockquote) {
+  max-width: var(--measure); width: 100%; margin-left: 0; margin-right: 0;
+}
+[data-theme="neon"] .dos-callout { max-width: var(--measure); }
+[data-theme="neon"] .dos-table-wrap > .dos-table { width: 100%; }
+@media (max-width: 700px) { [data-theme="neon"] { --measure: 100%; } }

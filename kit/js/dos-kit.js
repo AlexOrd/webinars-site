@@ -86,6 +86,7 @@
       // Reserve the height of the finished session up front, so revealing steps never pushes the page down.
       let lastW = 0;
       new ResizeObserver(() => { const w = this.body.clientWidth; if (w && w !== lastW) { lastW = w; this.reserve(); } }).observe(this.body);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.reserve());   // fonts change line heights
       this.shown = 0;
       if (this.hasAttribute('step')) { this.render(0); this.hint(); return; }
       if (RM || this.hasAttribute('no-autoplay')) { this.render(this.steps.length); return; }

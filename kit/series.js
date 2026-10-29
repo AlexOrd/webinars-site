@@ -14,6 +14,5 @@ window.DOS_SERIES = {
     { label: 'Telegram', url: 'https://t.me/YOUR_HANDLE' },
     { label: 'Facebook', url: 'https://www.facebook.com/YOUR_HANDLE' },
     { label: 'YouTube', url: 'https://www.youtube.com/@YOUR_HANDLE' },
-    { label: 'Сайт курсу СП', url: 'https://sp.ordynski.com/' },
   ],
 };
