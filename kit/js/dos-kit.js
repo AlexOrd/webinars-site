@@ -39,13 +39,13 @@
       const ta = el('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (_) {} ta.remove();
     }
-    if (btn) { const old = btn.textContent; btn.textContent = 'Copied'; btn.classList.add('done'); setTimeout(() => { btn.textContent = old; btn.classList.remove('done'); }, 1400); }
+    if (btn) { const old = btn.textContent; btn.textContent = 'Скопійовано'; btn.classList.add('done'); setTimeout(() => { btn.textContent = old; btn.classList.remove('done'); }, 1400); }
     track('copy_code', { label: (btn && btn.dataset.label) || text.slice(0, 40) });
   }
   window.dosCopy = copyText;
   function copyButton(getText, label) {
-    const b = el('button', 'dos-copy', 'Copy'); b.type = 'button'; b.dataset.label = label || '';
-    b.setAttribute('aria-label', 'Copy' + (label ? ': ' + label : ''));
+    const b = el('button', 'dos-copy', 'Копіювати'); b.type = 'button'; b.dataset.label = label || '';
+    b.setAttribute('aria-label', 'Копіювати' + (label ? ': ' + label : ''));
     b.addEventListener('click', () => copyText(getText(), b));
     return b;
   }
@@ -54,7 +54,7 @@
       box.dataset.enh = '1';
       const pre = box.querySelector('pre'); if (!pre) return;
       let bar = box.querySelector(':scope > .bar');
-      if (!bar) { bar = el('div', 'bar'); bar.appendChild(el('span', '', box.dataset.file || box.dataset.lang || 'code')); box.insertBefore(bar, pre); }
+      if (!bar) { bar = el('div', 'bar'); bar.appendChild(el('span', '', box.dataset.file || box.dataset.lang || 'код')); box.insertBefore(bar, pre); }
       bar.appendChild(copyButton(() => pre.innerText.replace(/\n$/, ''), box.dataset.file));
     });
     root.querySelectorAll('[data-copy]:not([data-enh])').forEach(n => {
@@ -77,7 +77,7 @@
       this.textContent = '';
       const box = el('div', 'dos-term');
       const bar = el('div', 'dos-term-bar'); bar.appendChild(el('span', 't', this.getAttribute('title') || 'bash'));
-      this.btn = el('button', '', this.hasAttribute('step') ? 'Step ▷' : '▷ Replay'); this.btn.type = 'button';
+      this.btn = el('button', '', this.hasAttribute('step') ? 'Далі ▷' : '▷ Повторити'); this.btn.type = 'button';
       this.btn.addEventListener('click', () => this.hasAttribute('step') ? this.next() : this.play());
       bar.appendChild(this.btn);
       this.body = el('div', 'dos-term-body'); this.body.setAttribute('role', 'log'); this.body.setAttribute('aria-live', 'off');
@@ -118,7 +118,7 @@
       const h = m.offsetHeight; m.remove();
       this.body.style.minHeight = (isFinite(max) ? Math.min(h, max) : h) + 'px';
     }
-    hint() { this.body.appendChild(el('div', 'dos-term-note dos-term-hint', 'Press Step ▷ (or K) to run the next command')); }
+    hint() { this.body.appendChild(el('div', 'dos-term-note dos-term-hint', 'Натисніть «Далі ▷» (або K), щоб виконати наступну команду')); }
     render(n) {
       this.body.textContent = '';
       this.steps.slice(0, n).forEach(s => { this.body.appendChild(this.line(s, s.cmd || '', false)); this.body.appendChild(this.outputs(s)); });
@@ -137,10 +137,10 @@
       for (let i = 0; i < this.steps.length; i++) { await this.type(i); if (this._abort) return; await sleep(320); }
     }
     async next() {
-      if (this.shown >= this.steps.length) { this.render(0); this.hint(); this.btn.textContent = 'Step ▷'; return; }
+      if (this.shown >= this.steps.length) { this.render(0); this.hint(); this.btn.textContent = 'Далі ▷'; return; }
       const h = this.body.querySelector('.dos-term-hint'); if (h) h.remove();
       if (RM) this.render(this.shown + 1); else await this.type(this.shown);
-      if (this.shown >= this.steps.length) this.btn.textContent = '↺ Restart';
+      if (this.shown >= this.steps.length) this.btn.textContent = '↺ Спочатку';
     }
   }
   customElements.define('dos-terminal', DosTerminal);
@@ -153,7 +153,7 @@
       const qr = window.qrcode(0, 'M'); qr.addData(unescape(encodeURIComponent(value)), 'Byte'); qr.make();
       const n = qr.getModuleCount(), NS = 'http://www.w3.org/2000/svg';
       const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', `0 0 ${n} ${n}`); svg.setAttribute('role', 'img');
-      svg.setAttribute('aria-label', 'QR code: ' + value);
+      svg.setAttribute('aria-label', 'QR-код: ' + value);
       let d = '';
       for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += `M${c} ${r}h1v1h-1z`;
       const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('fill', '#000'); svg.appendChild(p);
@@ -181,7 +181,7 @@
       const s = Math.max(0, this.left), m = Math.floor(s / 60), r = s % 60;
       this.digits.textContent = (this.left < 0 ? '-' : '') + String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0');
       this.classList.toggle('warn', this.left <= 120 && this.left > 0); this.classList.toggle('over', this.left <= 0);
-      this.ctl.textContent = this.running ? '[ Pause ]' : (this.left === this.total ? '[ Start ]' : '[ Resume ]');
+      this.ctl.textContent = this.running ? '[ Пауза ]' : (this.left === this.total ? '[ Старт ]' : '[ Продовжити ]');
     }
     toggle() {
       this.running = !this.running;
@@ -206,14 +206,14 @@
       this.stamp = el('span', 'stamp'); this.meta.append(this.total, this.stamp);
       this.textContent = ''; this.append(this.qEl, this.list, this.meta);
       this.delay = this.interval; this.visible = false;
-      this.empty('No votes yet');
+      this.empty('Голосів ще немає');
       new IntersectionObserver(es => { this.visible = es.some(x => x.isIntersecting); if (this.visible) this.tick(); }, { threshold: .2 }).observe(this);
       document.addEventListener('visibilitychange', () => { if (!document.hidden) this.tick(); });
     }
     empty(text) { this.list.textContent = ''; this.list.appendChild(el('div', 'empty', text)); }
     async tick() {
       if (this.busy || !this.visible || document.hidden) return;
-      const src = this.getAttribute('src'); if (!src || /PASTE|YOUR_/i.test(src)) { this.empty('Poll not connected'); return; }
+      const src = this.getAttribute('src'); if (!src || /PASTE|YOUR_/i.test(src)) { this.empty('Опитування ще не підключене'); return; }
       this.busy = true; clearTimeout(this.timer);
       try {
         const r = await fetch(src, { cache: 'no-store' });   // simple GET, no custom headers (consilium T2)
@@ -221,7 +221,7 @@
         this.draw(await r.json()); this.delay = this.interval;
       } catch (e) {
         this.delay = Math.min(this.delay * 2, 60000);
-        this.stamp.textContent = 'Offline, retry in ' + Math.round(this.delay / 1000) + ' s';
+        this.stamp.textContent = 'Немає зв’язку, повтор за ' + Math.round(this.delay / 1000) + ' с';
         this.stamp.className = 'stamp err';
       } finally {
         this.busy = false;
@@ -229,10 +229,10 @@
       }
     }
     draw(d) {
-      if (!d || !Array.isArray(d.options)) { this.empty('Poll not started'); return; }
+      if (!d || !Array.isArray(d.options)) { this.empty('Опитування ще не почалося'); return; }
       if (d.question) this.qEl.textContent = d.question;
       const total = d.options.reduce((a, o) => a + (+o.votes || 0), 0);
-      if (!total) this.empty('No votes yet'); else {
+      if (!total) this.empty('Голосів ще немає'); else {
         this.list.textContent = '';
         d.options.forEach(o => {
           const v = +o.votes || 0, pct = Math.round(v * 100 / total);
@@ -240,16 +240,16 @@
           row.append(el('div', 'opt', String(o.text)), bar, el('div', 'num', v + ' · ' + pct + '%')); this.list.appendChild(row);
         });
       }
-      this.total.textContent = 'Votes: ' + total + (d.closed ? ' · closed' : '');
+      this.total.textContent = 'Голосів: ' + total + (d.closed ? ' · закрите' : '');
       this.stamp.className = 'stamp';
-      this.stamp.textContent = 'Updated ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      this.stamp.textContent = 'Оновлено ' + new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
   }
   customElements.define('dos-poll', DosPoll);
 
   /* ======================= <dos-clock> ======================= */
   class DosClock extends HTMLElement {
-    connectedCallback() { const f = () => { this.textContent = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }; f(); this.t = setInterval(f, 15000); }
+    connectedCallback() { const f = () => { this.textContent = new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }); }; f(); this.t = setInterval(f, 15000); }
     disconnectedCallback() { clearInterval(this.t); }
   }
   customElements.define('dos-clock', DosClock);
@@ -260,7 +260,7 @@
       if (this._built) return; this._built = true;
       this.classList.add('dos-socials');
       const list = (SERIES.socials || []).filter(s => s && s.url && !/YOUR_|example\.com/i.test(s.url));
-      const extra = this.hasAttribute('with-hub') && SERIES.hub ? [{ label: 'All webinars', url: SERIES.hub, track: 'hub' }] : [];
+      const extra = this.hasAttribute('with-hub') && SERIES.hub ? [{ label: 'Усі вебінари', url: SERIES.hub, track: 'hub' }] : [];
       [...extra, ...list].forEach(s => {
         const a = el('a', '', '► ' + s.label); a.href = s.url; a.rel = 'me noopener'; a.target = '_blank';
         a.dataset.track = 'outbound'; a.dataset.trackLabel = s.track || s.label; this.appendChild(a);
