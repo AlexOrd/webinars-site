@@ -147,6 +147,9 @@
 
   /* ======================= <dos-qr value caption size> ======================= */
   class DosQr extends HTMLElement {
+    // value may be set after upgrade (page config runs on DOMContentLoaded) → re-render on change
+    static get observedAttributes() { return ['value']; }
+    attributeChangedCallback(name, oldV, newV) { if (this._built && oldV !== newV) { this._built = false; this.connectedCallback(); } }
     connectedCallback() {
       if (this._built || typeof window.qrcode !== 'function') return; this._built = true;
       const value = this.getAttribute('value') || location.href;
