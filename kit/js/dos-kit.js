@@ -210,7 +210,14 @@
       new IntersectionObserver(es => { this.visible = es.some(x => x.isIntersecting); if (this.visible) this.tick(); }, { threshold: .2 }).observe(this);
       document.addEventListener('visibilitychange', () => { if (!document.hidden) this.tick(); });
     }
-    empty(text) { this.list.textContent = ''; this.list.appendChild(el('div', 'empty', text)); }
+    // No votes / not connected: if the slide gave its options, show them numbered so people can vote in the chat.
+    empty(text) {
+      this.list.textContent = '';
+      const opts = (this.getAttribute('options') || '').split('|').map(s => s.trim()).filter(Boolean);
+      if (!opts.length) { this.list.appendChild(el('div', 'empty', text)); return; }
+      const ol = el('ol', 'fallback'); opts.forEach(o => ol.appendChild(el('li', '', o)));
+      this.list.append(ol, el('div', 'empty', this.getAttribute('fallback') || 'Голосуйте в каналі або напишіть номер у чат'));
+    }
     async tick() {
       if (this.busy || !this.visible || document.hidden) return;
       const src = this.getAttribute('src'); if (!src || /PASTE|YOUR_/i.test(src)) { this.empty('Опитування ще не підключене'); return; }
